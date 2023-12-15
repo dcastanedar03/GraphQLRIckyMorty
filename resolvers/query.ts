@@ -12,5 +12,14 @@ export const Query = {
         const response = await data.json();
 
         return response;
-    }
-}
+    },
+    charactersByIds: async (_: unknown, args: { ids: string[] }): Promise<Array<CharacterApi>> => {
+        const { ids } = args;
+        const characters = await fetch(`https://rickandmortyapi.com/api/character/${ids.toString()}`);
+        if(characters.status !== 200){
+            throw new GraphQLError("Error");
+        }
+
+        return characters.json();
+      },
+};
